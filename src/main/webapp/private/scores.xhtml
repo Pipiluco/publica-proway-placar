@@ -1,0 +1,71 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="/templates/layout-one.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:util="http://java.sun.com/jsf/composite/components"
+	xmlns:sec="http://www.springframework.org/security/tags">
+
+	<ui:define name="title">Pontuações</ui:define>
+	
+	<ui:define name="center">
+		<h:form prependId="false" id="formScore">
+			<p:messages id="messages" showDetail="true" closable="true">
+        		<p:autoUpdate />
+    		</p:messages>
+    
+			<p:panel id="panelCRUD" header="#{scoreBean.score.id == null ? 'Nova pontuação' : 'Atualizar pontuação'}">
+				<h:panelGrid>
+					<p:inputNumber placeholder="Id" padControl="false" disabled="true" value="#{scoreBean.score.id}" />
+					<p:inputNumber placeholder="Pontos" padControl="false" value="#{scoreBean.score.points}" />
+					
+					<p:selectOneMenu value="#{scoreBean.score.player}" converter="#{playerConverter}">
+						<f:selectItems value="#{playerBean.players}" var="object" itemLabel="#{object.name} #{object.lastName}"/>
+					</p:selectOneMenu>
+					
+					<p:selectOneMenu value="#{scoreBean.score.game}" converter="#{gameConverter}">
+						<f:selectItems value="#{gameBean.games}" var="object" itemLabel="Jogo #{object.id}"/>
+					</p:selectOneMenu>
+					
+					<util:buttons-crud managedBean="#{scoreBean}" componentReload="panelCRUD, dtScores" buttonSave="#{scoreBean.score.id == null}" buttonUpdate="#{scoreBean.score.id != null}" 
+						buttonDelete="#{scoreBean.score.id != null}" buttonNew="#{scoreBean.score.id != null}" />
+				</h:panelGrid>
+			</p:panel>
+		</h:form>
+	</ui:define>
+
+	<ui:define name="east">
+		<h:form prependId="false" id="formScores">
+			<p:panel header="Pontuações" id="panelDataTable">
+				<h:panelGrid>
+					<p:dataTable id="dtScores" var="object" value="#{scoreBean.scores}">
+						<p:column headerText="Id">
+							<h:outputText value="#{object.id}" />
+						</p:column>
+
+						<p:column headerText="Pontos">
+							<h:outputText value="#{object.points}" />
+						</p:column>
+
+						<p:column headerText="Jogador">
+							<h:outputText value="#{object.player.name}" />
+						</p:column>
+						
+						<p:column headerText="Jogo">
+							<h:outputText value="#{object.game.id}" />
+						</p:column>
+						
+						<p:column headerText="Ações">
+							<p:commandButton icon="fa fa-fw fa-edit" title="Editar" update="panelCRUD" >
+								<f:setPropertyActionListener value="#{object}" target="#{scoreBean.score}" />
+							</p:commandButton>
+							<p:commandButton icon="fa fa-fw fa-remove" title="Excluir" action="#{scoreBean.delete(object)}" update="panelCRUD, dtScores" />
+						</p:column>
+					</p:dataTable>
+				</h:panelGrid>
+			</p:panel>
+		</h:form>
+	</ui:define>
+</ui:composition>

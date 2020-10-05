@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:sec="http://www.springframework.org/security/tags"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>Novo usuário</title>
+	<link rel="stylesheet" type="text/css" href="/css/main.css"/>
+</h:head>
+
+<body>
+	<h:form id="formUser" prependId="false">
+		<p:messages id="messages" showDetail="true" showSummary="false" closable="true" autoUpdate="false" globalOnly="false" />
+   
+		<p:panel header="Cadastro de usuário" styleClass="cad-center">
+			<h:panelGrid columns="1" style="width: 100%">
+				<p:inputText value="#{playerBean.player.name}" placeholder="Nome" style=	"width: 100%;" required="true" requiredMessage="Informe o nome!"/>
+				<p:inputText value="#{playerBean.player.lastName}" placeholder="Sobrenome" style="width: 100%;" required="true" requiredMessage="Informe o sobrenome!"/>
+				
+				<p:inputText id="iptEmail" value="#{playerBean.player.email}" placeholder="E-mail" style="width: 100%;" required="true" requiredMessage="Informe e-mail!" />
+				<p:inputNumber placeholder="Idade" padControl="false" value="#{playerBean.player.age}" style="width: 50%;" />
+				<p:inputText placeholder="Gênero" value="#{playerBean.player.gender}" style="width: 50%;" />
+				
+				<p:password id="pswPassword01" value="#{playerBean.player.password}" match="pswPassword02" placeholder="Senha" required="true"
+					requiredMessage="Informe a senha!" style="width: 50%;" feedback="true" maxlength="16" validatorMessage="As senhas foram digitadas diferentes!"
+					promptLabel="Digite a senha" weakLabel="Senha fraca" goodLabel="Senha intermediária" strongLabel="Senha forte">
+				</p:password>
+				<p:password id="pswPassword02" value="#{playerBean.player.password}" maxlength="16" placeholder="Confirmar senha" required="true" requiredMessage="Confirme a senha!" style="width: 50%;"/>
+				
+				<sec:authorize access="hasRole('ROLE_ADMIN')">
+					<p:selectOneMenu value="#{playerBean.player.role}" converter="#{roleConverter}" style="width: 50%;">
+						<f:selectItems value="#{roleBean.roles}" var="object" itemLabel="#{object.access}"/>
+					</p:selectOneMenu>
+				</sec:authorize>
+				
+				<sec:authorize access="hasRole('ROLE_USER') or hasRole('ROLE_ANONYMOUS')">
+					<p:selectOneMenu value="#{playerBean.player.role}" converter="#{roleConverter}" style="width: 50%;">
+						<f:selectItem itemValue="2" itemLabel="ROLE_USER"/>
+					</p:selectOneMenu>
+				</sec:authorize>
+				
+				<p:commandButton actionListener="#{playerBean.save}" value="Criar conta" update="formUser" style="width: 50%; height: 50px;"/>
+				<p:link outcome="login" value="Fazer login!"/>
+			</h:panelGrid>
+		</p:panel>
+	</h:form>
+</body>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:sec="http://www.springframework.org/security/tags">
+
+<h:head>
+	<title>Login</title>
+	<link rel="stylesheet" type="text/css" href="/css/main.css"/>
+	<f:metadata>
+		<f:event listener="#{loginBean.onLogged}" type="preRenderView" />
+	</f:metadata>
+</h:head>
+
+<body >
+	<h:form prependId="false">
+		<p:panel header="Login" styleClass="login-center">
+			<h:panelGrid columns="1" style="width: 100%; text-align: center;" >
+				<p:outputLabel value="Usuário ou senha inválido!" rendered="${!empty param['error']}" style="color: red"/>
+				<p:outputLabel value="Informe seu e-mail e a senha!" rendered="${empty param['error']}" style="color: blue"/>
+				<p:inputText id="username" placeholder="E-mail" style="width: 90%; height: 30px;"/>
+				<p:password id="password" placeholder="Senha" style="width: 90%; height: 30px;" />
+
+				<p:commandButton value="Login" ajax="false" style="width: 60%; height: 50px;" />
+				<p:link outcome="cad-user" value="Criar nova conta!"/>
+			</h:panelGrid>
+		</p:panel>
+	</h:form>
+</body>
+</html>

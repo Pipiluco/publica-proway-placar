@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="/templates/layout-one.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:util="http://java.sun.com/jsf/composite/components"
+	xmlns:sec="http://www.springframework.org/security/tags">
+
+	<ui:define name="title">Jogos</ui:define>
+	
+	<ui:define name="center">
+		<h:form prependId="false" id="formGame">
+			<p:panel id="panelCRUD" header="#{gameBean.game.id == null ? 'Novo jogo' : 'Atualizar jogo'}">
+				<h:panelGrid>
+					<p:inputNumber placeholder="Id" padControl="false" disabled="true" value="#{gameBean.game.id}" />
+					<p:calendar placeholder="Data do jogo" value="#{gameBean.game.date}" locale="pt" pattern="dd/MM/yyyy HH:mm" mask="true" mindate="#{gameBean.currentDate}"/>
+					
+					<p:selectOneMenu value="#{gameBean.game.season}" converter="#{seasonConverter}">
+						<f:selectItems value="#{seasonBean.seasons}" var="object" itemLabel="#{object.id}º Temporada"/>
+					</p:selectOneMenu>
+					
+					<util:buttons-crud managedBean="#{gameBean}" componentReload="panelCRUD, dtGames" buttonSave="#{gameBean.game.id == null}" buttonUpdate="#{gameBean.game.id != null}" 
+						buttonDelete="#{gameBean.game.id != null}" buttonNew="#{gameBean.game.id != null}" />
+				</h:panelGrid>
+			</p:panel>
+		</h:form>
+	</ui:define>
+
+	<ui:define name="east">
+		<h:form prependId="false" id="formGames">
+			<p:panel header="Jogos" id="panelDataTable">
+				<h:panelGrid>
+					<p:dataTable id="dtGames" var="object" value="#{gameBean.games}">
+						<p:column headerText="Id">
+							<h:outputText value="#{object.id}" />
+						</p:column>
+						
+						<p:column headerText="Pontos">
+							<h:outputText value="#{object.totalPoints}" />
+						</p:column>
+
+						<p:column headerText="Data do jogo">
+							<h:outputText value="#{object.date}">
+								<f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
+							</h:outputText>
+						</p:column>
+
+						<p:column headerText="Temporada">
+							<h:outputText value="#{object.season.id}" />
+						</p:column>
+						<p:column headerText="Ações">
+							<p:commandButton icon="fa fa-fw fa-edit" title="Editar" update="panelCRUD" >
+								<f:setPropertyActionListener value="#{object}" target="#{gameBean.game}" />
+							</p:commandButton>
+							<p:commandButton icon="fa fa-fw fa-remove" title="Excluir" action="#{gameBean.delete(object)}" update="panelCRUD, dtGames" />
+						</p:column>
+					</p:dataTable>
+				</h:panelGrid>
+			</p:panel>
+		</h:form>
+	</ui:define>
+</ui:composition>

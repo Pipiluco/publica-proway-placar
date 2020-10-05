@@ -1,0 +1,48 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="/templates/layout-two.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:util="http://java.sun.com/jsf/composite/components"
+	xmlns:sec="http://www.springframework.org/security/tags">
+
+	<ui:define name="title">Placar</ui:define>
+
+	<ui:define name="center">
+		<h:form prependId="false">
+			<p:panel header="Placar" id="panelSeasons">
+				<p:dataTable var="object" value="#{scoreBean.scores}">
+					<p:column headerText="Jogador" filterBy="#{object.player.name}">
+						<h:outputText value="#{object.player.name}" />
+					</p:column>
+
+					<p:column headerText="Jogo">
+						<h:outputText value="#{object.game.id}" />
+					</p:column>
+
+					<p:column headerText="Pontos por jogo">
+						<h:outputText value="#{object.points}" />
+					</p:column>
+
+					<p:column headerText="Mínimo da temporada">
+						<h:outputText value="#{object.minimumSeason}" />
+					</p:column>
+
+					<p:column headerText="Máximo da temporada">
+						<h:outputText value="#{object.maximumSeason}" />
+					</p:column>
+
+					<p:column headerText="Recorde mínimo">
+						<h:outputText value="#{object.minimumRecord}" />
+					</p:column>
+
+					<p:column headerText="Recorde máximo">
+						<h:outputText value="#{object.maximumRecord}" />
+					</p:column>
+				</p:dataTable>
+			</p:panel>
+		</h:form>
+	</ui:define>
+</ui:composition>

@@ -1,0 +1,77 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="/templates/layout-one.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:util="http://java.sun.com/jsf/composite/components"
+	xmlns:sec="http://www.springframework.org/security/tags">
+
+	<ui:define name="title">Jogadores</ui:define>
+	
+	<ui:define name="center">
+		<h:form prependId="false" id="formPlayer">
+			<p:panel id="panelCRUD" header="#{playerBean.player.id == null ? 'Novo jogador' : 'Atualizar jogador'}">
+				<h:panelGrid>
+					<p:inputNumber placeholder="Id" padControl="false" disabled="true" value="#{playerBean.player.id}" />
+					<p:inputText placeholder="Nome" value="#{playerBean.player.name}" />
+					<p:inputText placeholder="Sobrenome" value="#{playerBean.player.lastName}" />
+					<p:inputNumber placeholder="Idade" padControl="false" value="#{playerBean.player.age}" />
+					<p:inputText placeholder="Gênero" value="#{playerBean.player.gender}" />
+					<p:inputText placeholder="E-mail" value="#{playerBean.player.email}" />
+					
+					<p:password id="pswPassword01" value="#{playerBean.player.password}" match="pswPassword02" placeholder="Senha" required="true" validator="#{passwordValidator.validate}" 
+						requiredMessage="Informe a senha!" style="width: 50%;" feedback="true" maxlength="16" validatorMessage="As senhas foram digitadas diferentes!"
+						promptLabel="Digite a senha" weakLabel="Senha fraca" goodLabel="Senha intermediária" strongLabel="Senha forte">
+					</p:password>
+					<p:password id="pswPassword02" value="#{playerBean.player.password}" maxlength="16" placeholder="Confirmar senha" required="true" requiredMessage="Confirme a senha!" />
+				
+					
+					<util:buttons-crud managedBean="#{playerBean}" componentReload="growlMain, panelCRUD, dtPlayers" buttonSave="#{playerBean.player.id == null}" buttonUpdate="#{playerBean.player.id != null}" 
+						buttonDelete="#{playerBean.player.id != null}" buttonNew="#{playerBean.player.id != null}" />
+				</h:panelGrid>
+			</p:panel>
+		</h:form>
+	</ui:define>
+
+	<ui:define name="east">
+		<h:form prependId="false" id="formPlayers">
+			<p:panel header="Jogadores" id="panelDataTable">
+				<h:panelGrid>
+					<p:dataTable id="dtPlayers" var="object" value="#{playerBean.players}">
+						<p:column headerText="Id">
+							<h:outputText value="#{object.id}" />
+						</p:column>
+
+						<p:column headerText="Nome">
+							<h:outputText value="#{object.name}" />
+						</p:column>
+						
+						<p:column headerText="Sobrenome">
+							<h:outputText value="#{object.lastName}" />
+						</p:column>
+						
+						<p:column headerText="Idade">
+							<h:outputText value="#{object.age}" />
+						</p:column>
+						
+						<p:column headerText="Gênero">
+							<h:outputText value="#{object.gender}" />
+						</p:column>
+						
+						<p:column headerText="E-mail">
+							<h:outputText value="#{object.email}" />
+						</p:column>
+						<p:column headerText="Ações">
+							<p:commandButton icon="fa fa-fw fa-edit" title="Editar" update="panelCRUD" >
+								<f:setPropertyActionListener value="#{object}" target="#{playerBean.player}" />
+							</p:commandButton>
+							<p:commandButton icon="fa fa-fw fa-remove" title="Excluir" action="#{playerBean.delete(object)}" update="panelCRUD, dtPlayers" />
+						</p:column>
+					</p:dataTable>
+				</h:panelGrid>
+			</p:panel>
+		</h:form>
+	</ui:define>
+</ui:composition>

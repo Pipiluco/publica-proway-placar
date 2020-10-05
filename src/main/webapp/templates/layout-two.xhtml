@@ -1,0 +1,66 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:sec="http://www.springframework.org/security/tags">
+
+<h:head>
+	<title><ui:insert name="title">Placar Pública</ui:insert></title>
+	<link rel="stylesheet" type="text/css" href="/css/main.css"/>
+	<script type="text/javascript" src="/js/localesCalendar.js" />
+</h:head>
+
+<!-- Esta tela é usada com template base para todas telas de visualização de dados cadastrados -->
+
+<body>
+	<script type="text/javascript" charset="UTF-8">
+		localeDatePtBr();
+	</script>
+	
+	<p:layout fullPage="true">
+		<p:layoutUnit position="north" size="130">
+			<h:form onsubmit="this.action='#{request.contextPath}/logout';">
+				<p:menubar>
+			        <p:submenu label="#{loginBean.player.name} #{loginBean.player.lastName}" >
+			            <p:menuitem value="E-mail: #{loginBean.player.email}"/>
+			            <p:separator />
+			            <p:menuitem value="Último acesso: #{loginBean.player.lastAccess}"/>
+			        </p:submenu>
+			        
+			        <f:facet name="options">
+			            <p:commandButton value="Logout" ajax="false" />
+			        </f:facet>
+		    	</p:menubar>
+			</h:form>
+		</p:layoutUnit>
+
+		<p:layoutUnit position="west" size="200" header="Categorias" collapsible="true">
+			<p:separator />
+			<p:link outcome="/private/seasons" value="Temporadas" />
+			<p:separator />
+			<p:link outcome="/private/games" value="Jogos" />
+			<p:separator />
+			<p:link outcome="/private/players" value="Jogadores" />
+			<p:separator />
+			<p:link outcome="/private/scores" value="Pontuações" />
+			<p:separator />
+			<p:link outcome="/private/roles" value="Permissões" />
+			<p:separator />
+			<p:separator />
+			<p:link outcome="/private/scoreboard" value="Placar" />
+		</p:layoutUnit>
+
+		<p:layoutUnit position="center">
+        	<ui:insert name="center"></ui:insert>
+    	</p:layoutUnit>
+
+		<p:layoutUnit position="south" size="10%" resizable="true">
+			<center>
+				<h:outputText value="Lucas F. da Silva" />
+			</center>
+		</p:layoutUnit>
+	</p:layout>
+</body>
+</html>

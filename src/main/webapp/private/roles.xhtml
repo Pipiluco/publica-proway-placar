@@ -1,0 +1,51 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="/templates/layout-one.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:util="http://java.sun.com/jsf/composite/components"
+	xmlns:sec="http://www.springframework.org/security/tags">
+
+	<ui:define name="title">Permissões</ui:define>
+	
+	<ui:define name="center">
+		<h:form prependId="false" id="formRole">
+			<p:panel id="panelCRUD" header="#{roleBean.role.id == null ? 'Nova permissão' : 'Atualizar permissão'}">
+				<h:panelGrid>
+					<p:inputNumber placeholder="Id" padControl="false" disabled="true" value="#{roleBean.role.id}" />
+					<p:inputText placeholder="Acesso" value="#{roleBean.role.access}" />
+					
+					<util:buttons-crud managedBean="#{roleBean}" componentReload="panelCRUD, dtRoles" buttonSave="#{roleBean.role.id == null}" buttonUpdate="#{roleBean.role.id != null}" 
+						buttonDelete="#{roleBean.role.id != null}" buttonNew="#{roleBean.role.id != null}" />
+				</h:panelGrid>
+			</p:panel>
+		</h:form>
+	</ui:define>
+
+	<ui:define name="east">
+		<h:form prependId="false" id="formRoles">
+			<p:panel header="Permissões" id="panelDataTable">
+				<h:panelGrid>
+					<p:dataTable id="dtRoles" var="object" value="#{roleBean.roles}">
+						<p:column headerText="Id">
+							<h:outputText value="#{object.id}" />
+						</p:column>
+
+						<p:column headerText="Acesso">
+							<h:outputText value="#{object.access}" />
+						</p:column>
+
+						<p:column headerText="Ações">
+							<p:commandButton icon="fa fa-fw fa-edit" title="Editar" update="panelCRUD" >
+								<f:setPropertyActionListener value="#{object}" target="#{roleBean.role}" />
+							</p:commandButton>
+							<p:commandButton icon="fa fa-fw fa-remove" title="Excluir" action="#{roleBean.delete(object)}" update="panelCRUD, dtRoles" />
+						</p:column>
+					</p:dataTable>
+				</h:panelGrid>
+			</p:panel>
+		</h:form>
+	</ui:define>
+</ui:composition>

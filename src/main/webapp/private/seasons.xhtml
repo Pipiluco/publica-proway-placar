@@ -1,0 +1,59 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="/templates/layout-one.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:util="http://java.sun.com/jsf/composite/components"
+	xmlns:sec="http://www.springframework.org/security/tags">
+
+	<ui:define name="title">Temporadas</ui:define>
+	
+	<ui:define name="center">
+		<h:form prependId="false" id="formSeason">
+			<p:panel id="panelSeason" header="#{seasonBean.season.id == null ? 'Nova temporada' : 'Atualizar temporada'}">
+				<h:panelGrid>
+					<p:inputNumber placeholder="Id" padControl="false" disabled="true" value="#{seasonBean.season.id}" />
+					<p:inputNumber placeholder="Mínimo da temporada" padControl="false" disabled="#{seasonBean.season.id == null}" value="#{seasonBean.season.minimumRecord}" />
+					<p:inputNumber placeholder="Máximo da temporada" padControl="false" disabled="#{seasonBean.season.id == null}" value="#{seasonBean.season.maximumRecord}" />
+					
+					<util:buttons-crud managedBean="#{seasonBean}" componentReload="panelSeason, dtSeasons" buttonSave="#{seasonBean.season.id == null}" buttonUpdate="#{seasonBean.season.id != null}" 
+						buttonDelete="#{seasonBean.season.id != null}" buttonNew="#{seasonBean.season.id != null}" />
+				</h:panelGrid>
+			</p:panel>
+		</h:form>
+	</ui:define>
+
+	<ui:define name="east">
+		<h:form prependId="false" id="formSeasons">
+			<p:panel header="Temporadas" id="panelSeasons">
+				<h:panelGrid>
+					<p:dataTable id="dtSeasons" var="object" value="#{seasonBean.seasons}">
+						<p:column headerText="Id">
+							<h:outputText value="#{object.id}" />
+						</p:column>
+
+						<p:column headerText="Número de jogos">
+							<h:outputText value="#{object.games.size()}" />
+						</p:column>
+
+						<p:column headerText="Mínimo da temporada">
+							<h:outputText value="#{object.minimumRecord}" />
+						</p:column>
+						
+						<p:column headerText="Máximo da temporada">
+							<h:outputText value="#{object.maximumRecord}" />
+						</p:column>
+						<p:column headerText="Ações">
+							<p:commandButton icon="fa fa-fw fa-edit" title="Editar" update="panelSeason" >
+								<f:setPropertyActionListener value="#{object}" target="#{seasonBean.season}" />
+							</p:commandButton>
+							<p:commandButton icon="fa fa-fw fa-remove" title="Excluir" action="#{seasonBean.delete(object)}" update="panelSeason, dtSeasons" />
+						</p:column>
+					</p:dataTable>
+				</h:panelGrid>
+			</p:panel>
+		</h:form>
+	</ui:define>
+</ui:composition>

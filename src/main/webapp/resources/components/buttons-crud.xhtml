@@ -1,0 +1,29 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:composite="http://java.sun.com/jsf/composite"
+	xmlns:p="http://primefaces.org/ui">
+	
+<!-- Interface para botões das telas de cadastro -->
+<composite:interface name="buttonsCrud">
+	<composite:attribute name="managedBean" required="true" />
+	<composite:attribute name="buttonNew" required="false" default="true" />
+	<composite:attribute name="buttonSave" required="false" default="true" />
+	<composite:attribute name="buttonUpdate" required="false" default="true" />
+	<composite:attribute name="buttonDelete" required="false" default="true" />
+	<composite:attribute name="componentReload" required="false" />
+</composite:interface>
+
+<!-- Implementação da interface para botões das telas de cadastro -->
+<composite:implementation>
+	<p:commandButton value="Novo" rendered="#{cc.attrs.buttonNew}"	action="#{cc.attrs.managedBean.renew}" id="cmbNew" update="#{cc.attrs.componentReload}" />
+
+	<p:commandButton value="Salvar" rendered="#{cc.attrs.buttonSave}" action="#{cc.attrs.managedBean.save}" partialSubmit="true" process="@this, @form" id="cmbSave" update="#{cc.attrs.componentReload}" />
+
+	<p:commandButton value="Atualizar"	rendered="#{cc.attrs.buttonUpdate}"	action="#{cc.attrs.managedBean.update}" partialSubmit="true" process="@this, @form" id="cmbUpdate" update="#{cc.attrs.componentReload}" />
+
+	<p:commandButton value="Excluir" rendered="#{cc.attrs.buttonDelete}" action="#{cc.attrs.managedBean.delete}" id="cmbDelete" update="#{cc.attrs.componentReload}" />
+</composite:implementation>
+</html>

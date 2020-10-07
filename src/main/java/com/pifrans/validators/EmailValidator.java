@@ -1,21 +1,20 @@
 package com.pifrans.validators;
 
-import java.io.Serializable;
-
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIInput;
 import javax.faces.context.FacesContext;
+import javax.faces.validator.FacesValidator;
+import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
-import javax.inject.Named;
 
 import com.pifrans.messages.MessageGeneric;
 import com.pifrans.messages.enums.EnumCadUser;
 
-@Named
-public class EmailValidator implements Serializable {
-	private static final long serialVersionUID = 1L;
+@FacesValidator
+public class EmailValidator implements Validator<Object> {
 	private static final String EMAIL_PATTERN = "^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$";
 
+	@Override
 	public void validate(FacesContext context, UIComponent component, Object object) throws ValidatorException {
 		String field = (String) object;
 		MessageGeneric message = new MessageGeneric();

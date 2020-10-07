@@ -25,7 +25,6 @@ public class LoginBean implements Serializable {
 	@Autowired
 	private PlayerService repository;
 
-
 	private Player player = new Player();
 
 	/*
@@ -34,7 +33,7 @@ public class LoginBean implements Serializable {
 	 */
 	public void onLogged() {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		String url = "/private/main.jsf";
+		String url = "/private/scoreboard.jsf";
 
 		if (!(authentication instanceof AnonymousAuthenticationToken)) {
 			try {

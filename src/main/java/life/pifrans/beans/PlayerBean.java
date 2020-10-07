@@ -14,6 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import com.pifrans.messages.MessageUser;
 
 import life.pifrans.models.Player;
+import life.pifrans.models.Role;
 import life.pifrans.services.PlayerService;
 
 /**
@@ -67,6 +68,12 @@ public class PlayerBean implements Serializable {
 		player.setCurrentAccess(null);
 		player.setLastAccess(null);
 		player.setActive(true);
+		if (player.getRole() == null) {
+			player.setRole(new Role(1L, "ROLE_USER"));
+		}
+		if (player.getTheme() == null || player.getTheme() == "") {
+			player.setTheme("nova-light");
+		}
 		playerService.insert(player);
 		messageUser.userSaveSuccess();
 		renew();

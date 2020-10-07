@@ -19,7 +19,10 @@ import org.hibernate.validator.constraints.Range;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-@MappedSuperclass /* Anotação para mostrar para o JPA que esta é uma superclasse e não precisa criar tabela a partir dela e sim das classes filhas */
+@MappedSuperclass /*
+					 * Anotação para mostrar para o JPA que esta é uma superclasse e não precisa
+					 * criar tabela a partir dela e sim das classes filhas
+					 */
 public abstract class User implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -44,6 +47,8 @@ public abstract class User implements Serializable {
 	@JsonIgnore
 	@Column(nullable = false, length = 255)
 	private String password;
+
+	private String theme;
 
 	@Column(name = "current_access")
 	@JsonFormat(pattern = "dd/MM/yyyy HH:mm")
@@ -114,6 +119,14 @@ public abstract class User implements Serializable {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public String getTheme() {
+		return theme;
+	}
+
+	public void setTheme(String theme) {
+		this.theme = theme;
 	}
 
 	public Date getCurrentAccess() {

@@ -4,7 +4,7 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:sec="http://www.springframework.org/security/tags"
+	xmlns:sec="https://joinfaces.org/security"
 	xmlns:p="http://primefaces.org/ui">
 
 <h:head>
@@ -21,11 +21,11 @@
 				<p:inputText value="#{playerBean.player.name}" placeholder="Nome" style=	"width: 100%;" required="true" requiredMessage="Informe o nome!"/>
 				<p:inputText value="#{playerBean.player.lastName}" placeholder="Sobrenome" style="width: 100%;" required="true" requiredMessage="Informe o sobrenome!"/>
 				
-				<p:inputText id="iptEmail" value="#{playerBean.player.email}" placeholder="E-mail" style="width: 100%;" required="true" requiredMessage="Informe e-mail!" />
+				<p:inputText id="iptEmail" value="#{playerBean.player.email}" placeholder="E-mail" style="width: 100%;" required="true" requiredMessage="Informe e-mail!" validator="emailValidator"/>
 				<p:inputNumber placeholder="Idade" padControl="false" value="#{playerBean.player.age}" style="width: 50%;" />
 				<p:inputText placeholder="Gênero" value="#{playerBean.player.gender}" style="width: 50%;" />
 				
-				<p:password id="pswPassword01" value="#{playerBean.player.password}" match="pswPassword02" placeholder="Senha" required="true"
+				<p:password id="pswPassword01" value="#{playerBean.player.password}" match="pswPassword02" placeholder="Senha" required="true" validator="passwordValidator"
 					requiredMessage="Informe a senha!" style="width: 50%;" feedback="true" maxlength="16" validatorMessage="As senhas foram digitadas diferentes!"
 					promptLabel="Digite a senha" weakLabel="Senha fraca" goodLabel="Senha intermediária" strongLabel="Senha forte">
 				</p:password>
@@ -37,9 +37,14 @@
 					</p:selectOneMenu>
 				</sec:authorize>
 				
+				<p:themeSwitcher value="#{playerBean.player.theme}" style="width:165px">
+		            <f:selectItem itemLabel="Escolha um tema" itemValue="" />
+		            <f:selectItems value="#{themeBean.themes}" var="object" itemLabel="#{object.displayName}" itemValue="#{object.name}"/>
+		        </p:themeSwitcher>
+				
 				<sec:authorize access="hasRole('ROLE_USER') or hasRole('ROLE_ANONYMOUS')">
-					<p:selectOneMenu value="#{playerBean.player.role}" converter="#{roleConverter}" style="width: 50%;">
-						<f:selectItem itemValue="2" itemLabel="ROLE_USER"/>
+					<p:selectOneMenu value="#{playerBean.player.role}" style="width: 50%;">
+						<f:selectItem itemLabel="ROLE_USER"/>
 					</p:selectOneMenu>
 				</sec:authorize>
 				

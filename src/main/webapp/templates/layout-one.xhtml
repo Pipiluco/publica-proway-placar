@@ -4,7 +4,7 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.org/ui"
-	xmlns:sec="http://www.springframework.org/security/tags">
+	xmlns:sec="https://joinfaces.org/security">
 
 <h:head>
 	<title><ui:insert name="title">Placar Pública</ui:insert></title>
@@ -47,8 +47,10 @@
 			<p:link outcome="/private/players" value="Jogadores" />
 			<p:separator />
 			<p:link outcome="/private/scores" value="Pontuações" />
-			<p:separator />
-			<p:link outcome="/private/roles" value="Permissões" />
+			<sec:authorize access="hasRole('ROLE_ADMIN')">
+				<p:separator />
+				<p:link outcome="/private/roles" value="Permissões" />
+			</sec:authorize>
 			<p:separator />
 			<p:separator />
 			<p:link outcome="/private/scoreboard" value="Placar" />

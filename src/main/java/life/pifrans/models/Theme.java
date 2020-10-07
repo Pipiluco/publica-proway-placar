@@ -2,51 +2,48 @@ package life.pifrans.models;
 
 import java.io.Serializable;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
 import org.springframework.stereotype.Component;
 
 @Component
-@Entity
-@Table(name = "roles")
-public class Role implements Serializable {
+public class Theme implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-	
-	@Column(unique = true)
-	private String access;
+	private Integer id;
+	private String displayName;
+	private String name;
 
-	public Role() {
+	public Theme() {
 	}
 
-	public Role(Long id, String access) {
+	public Theme(Integer id, String displayName, String name) {
 		super();
 		this.id = id;
-		this.access = access;
+		this.displayName = displayName;
+		this.name = name;
 	}
 
-	public Long getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
-	public String getAccess() {
-		return access;
+	public String getDisplayName() {
+		return displayName;
 	}
 
-	public void setAccess(String access) {
-		this.access = access;
+	public void setDisplayName(String displayName) {
+		this.displayName = displayName;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	@Override
@@ -65,7 +62,7 @@ public class Role implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Role other = (Role) obj;
+		Theme other = (Theme) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;

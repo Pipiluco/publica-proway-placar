@@ -9,12 +9,13 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import org.springframework.stereotype.Component;
 
 @Component
 @Entity
-@Table(name = "scores")
+@Table(name = "scores", uniqueConstraints = @UniqueConstraint(columnNames = { "fk_player", "fk_game" }))
 public class Score implements Serializable {
 	private static final long serialVersionUID = 1L;
 
